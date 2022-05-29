@@ -73,9 +73,15 @@ class Storage:
             port=3306
         )
 
-    def loadAll(self):
+    def loadAllTwitts(self):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, nom, description, heures FROM Matieres ''')
+        cur.execute(''' SELECT id, authordId, date, lang, link, text FROM Twitt ''')
+        data = cur.fetchall()
+        return data
+
+    def loadAllArticles(self):
+        cur = self.db.cursor()
+        cur.execute(''' SELECT id, redactor, date, lang, link, text FROM Article ''')
         data = cur.fetchall()
         return data
 
