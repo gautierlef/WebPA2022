@@ -1,0 +1,22 @@
+{% include 'vueHeader.html' %}
+
+        <br>
+        <br>
+        <div style="text-align: center;" class="container-fluid">
+            <div style="width: 30%; border: 1px solid black; background-color: #efefef; margin: auto;">
+                <h3 style="font-weight:bold;text-decoration:underline;">Recherche de mot clé</h3>
+                <br/>
+                <form role="form" action="/comparison" method="POST">
+                    <div class="form-group">
+                        <label for="pseudo">Saisissez le mot clé recherché</label>
+                        <input type="text" class="form-control" name="pseudo" id="pseudo"
+                               placeholder="Saisir le pseudo du joueur"/>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Valider</button>
+                </form>
+                <br/>
+                <br/>
+            </div>
+        </div>
+
+{% include 'vueFooter.html' %}

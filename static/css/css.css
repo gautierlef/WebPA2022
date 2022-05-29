@@ -1,0 +1,24 @@
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.input-text {
+	margin-left: 20px;
+}
+
+.navbar {
+	margin-bottom: 20px;
+}
+
+img {
+    width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center {
+    margin: auto;
+    padding: 10px;
+}
