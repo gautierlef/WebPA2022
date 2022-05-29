@@ -40,7 +40,7 @@ def inputComparison():
 @app.route('/comparison', methods=['POST'])
 def comparison():
     keyWord = request.form['keyWord']
-    return render_template('viewComparison.html', pseudo=pseudo, recommendedGames=recommendedGames, recommendedPlayers=recommendedPlayers)
+    return render_template('viewComparison.html', keyWord=keyWord)
 
 
 @app.route("/downloadCSV")
@@ -52,10 +52,10 @@ def downloadCSV():
         aws_access_key_id="AKIAZMSAVZUGSJ7DUL5J",
         aws_secret_access_key="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"
     )
-    parielaws1 = s3.Bucket('parielaws1')
-    for obj in parielaws1.objects.all():
+    mainbucket = s3.Bucket('mainbucket')
+    for obj in mainbucket.objects.all():
         path, filename = os.path.split(obj.key)
-        parielaws1.download_file(obj.key, filename)
+        mainbucket.download_file(obj.key, filename)
     with open("matieres.csv") as f:
         csv = f.read()
     f.close()
@@ -66,10 +66,10 @@ def downloadCSV():
 class Storage:
     def __init__(self):
         self.db = mysql.connector.connect(
-            user='AdminPartiel',
-            passwd='PARTIELaws1#',
-            db='Partieldatabase',
-            host='partielrds.c46hgutu5jsv.us-east-1.rds.amazonaws.com',
+            user='pagljm',
+            passwd='20sur20fac1le!',
+            db='maindatabase',
+            host='maindatabase.cntkwisqa3zr.us-west-1.rds.amazonaws.com',
             port=3306
         )
 
