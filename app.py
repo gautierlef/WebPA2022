@@ -16,7 +16,7 @@ def home():
 def viewTwitts():
     twitts = []
     storage = Storage()
-    data = storage.loadAll()
+    data = storage.loadAllTwitts()
     for row in data:
         twitts.append({'id': str(row[0]), 'nom': row[1], 'description': row[2], 'heures': str(row[3])})
     return render_template('viewTwitts.html', twitts=twitts)
@@ -26,7 +26,7 @@ def viewTwitts():
 def viewArticles():
     articles = []
     storage = Storage()
-    data = storage.loadAll()
+    data = storage.loadAllArticles()
     for row in data:
         articles.append({'id': str(row[0]), 'nom': row[1], 'description': row[2], 'heures': str(row[3])})
     return render_template('viewArticles.html', articles=articles)
