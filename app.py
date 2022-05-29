@@ -75,7 +75,7 @@ class Storage:
 
     def loadAllTwitts(self):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, authordId, date, lang, link, text FROM Twitt ''')
+        cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Twitt ''')
         data = cur.fetchall()
         return data
 
