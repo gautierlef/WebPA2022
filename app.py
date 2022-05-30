@@ -43,7 +43,7 @@ def viewArticles():
 
 
 @app.route('/inputComparisonArticles/<idArticle>', methods=['POST'])
-def inputComparisonTweet(idArticle):
+def inputComparisonArticles(idArticle):
     tweets = []
     storage = Storage()
     data = storage.loadAllTweets()
