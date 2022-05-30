@@ -18,8 +18,18 @@ def viewTweets():
     storage = Storage()
     data = storage.loadAllTweets()
     for row in data:
-        tweets.append({'id': str(row[0]), 'nom': row[1], 'description': row[2], 'heures': str(row[3])})
+        tweets.append({'id': str(row[0]), 'authorId': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
     return render_template('viewTweets.html', tweets=tweets)
+
+
+@app.route('/inputComparisonTweet/<idTweet>', methods=['POST'])
+def inputComparisonTweet(idTweet):
+    articles = []
+    storage = Storage()
+    data = storage.loadAllArticles()
+    for row in data:
+        articles.append({'id': str(row[0]), 'Redactor': row[1], 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
+    return render_template('viewArticleSelection.html', articles=articles, idTweet=idTweet)
 
 
 @app.route('/viewArticles', methods=['GET'])
@@ -28,8 +38,27 @@ def viewArticles():
     storage = Storage()
     data = storage.loadAllArticles()
     for row in data:
-        articles.append({'id': str(row[0]), 'nom': row[1], 'description': row[2], 'heures': str(row[3])})
+        articles.append({'id': str(row[0]), 'Redactor': row[1], 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
     return render_template('viewArticles.html', articles=articles)
+
+
+@app.route('/inputComparisonArticles/<idArticle>', methods=['POST'])
+def inputComparisonTweet(idArticle):
+    tweets = []
+    storage = Storage()
+    data = storage.loadAllTweets()
+    for row in data:
+        tweets.append({'id': str(row[0]), 'authorId': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
+    return render_template('viewTweetSelection.html', tweets=tweets, idArticle=idArticle)
+
+@app.route('/comparison/<idTweet>/<idArticle>', methods=['POST'])
+def comparison(idTweet, idArticle):
+    storage = Storage()
+    tweetData = storage.loadTweet(idTweet)
+    articleData = storage.loadArticle(idArticle)
+    tweet = {'id': str(articleData[0]), 'authorId': str(articleData[1]), 'date': str(articleData[2]), 'lang': articleData[3], 'link': articleData[3], 'text': articleData[4]}
+    article = {'id': str(articleData[0]), 'Redactor': articleData[1], 'date': str(articleData[2]), 'lang': articleData[3], 'link': articleData[3], 'text': articleData[4]}
+    return render_template('viewArticleSelection.html')
 
 
 @app.route('/inputComparison', methods=['GET'])
@@ -85,11 +114,17 @@ class Storage:
         data = cur.fetchall()
         return data
 
-    def loadMatiere(self, idMatiere):
+    def loadTweet(self, idTweet):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, nom, description, heures FROM Matieres WHERE id = %s ''', (idMatiere, ))
-        matiere = cur.fetchall()
-        return matiere
+        cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Twitt WHERE id = %s ''', (idTweet, ))
+        tweet = cur.fetchall()
+        return tweet
+
+    def loadArticle(self, idArticle):
+        cur = self.db.cursor()
+        cur.execute(''' SELECT id, redactor, date, lang, link, text FROM Article WHERE id = %s ''', (idArticle, ))
+        article = cur.fetchall()
+        return article
 
 
 if __name__ == '__main__':
