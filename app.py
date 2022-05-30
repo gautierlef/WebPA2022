@@ -12,14 +12,14 @@ def home():
     return render_template('viewHome.html')
 
 
-@app.route('/viewTwitts', methods=['GET'])
-def viewTwitts():
-    twitts = []
+@app.route('/viewTweets', methods=['GET'])
+def viewTweets():
+    tweets = []
     storage = Storage()
-    data = storage.loadAllTwitts()
+    data = storage.loadAllTweets()
     for row in data:
-        twitts.append({'id': str(row[0]), 'nom': row[1], 'description': row[2], 'heures': str(row[3])})
-    return render_template('viewTwitts.html', twitts=twitts)
+        tweets.append({'id': str(row[0]), 'nom': row[1], 'description': row[2], 'heures': str(row[3])})
+    return render_template('viewTweets.html', tweets=tweets)
 
 
 @app.route('/viewArticles', methods=['GET'])
@@ -73,7 +73,7 @@ class Storage:
             port=3306
         )
 
-    def loadAllTwitts(self):
+    def loadAllTweets(self):
         cur = self.db.cursor()
         cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Twitt ''')
         data = cur.fetchall()
