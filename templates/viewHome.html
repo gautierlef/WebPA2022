@@ -9,8 +9,8 @@
             <a href="/viewArticles" class="btn btn-lg btn-warning">Voir articles</a>
             <a href="/viewTweets" class="btn btn-lg btn-warning">Voir tweets</a>
 		</div>
-        <div class="hover_img">
-            <a href="#">Show Image<span><img src="{{ url_for( 'static' , filename = 'media/shrek.gif' ) }}" alt="image" height="50" width="50"/></span></a>
+        <div class="hover_img" style="text-align: right;">
+            <a>.<span><img src="{{ url_for( 'static' , filename = 'media/shrek.gif' ) }}" alt="image" height="50" width="50"/></span></a>
         </div>
 
 {% include 'viewFooter.html' %}
