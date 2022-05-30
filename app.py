@@ -51,8 +51,8 @@ def inputComparisonArticles(idArticle):
         tweets.append({'id': str(row[0]), 'authorId': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
     return render_template('viewTweetSelection.html', tweets=tweets, idArticle=idArticle)
 
-@app.route('/comparison/<idTweet>/<idArticle>', methods=['POST'])
-def comparison(idTweet, idArticle):
+@app.route('/comparisonById/<idTweet>/<idArticle>', methods=['POST'])
+def comparisonById(idTweet, idArticle):
     storage = Storage()
     tweetData = storage.loadTweet(idTweet)
     articleData = storage.loadArticle(idArticle)
