@@ -106,7 +106,7 @@ def inputScrapping():
     return render_template('viewInputScrapping.html')
 
 
-@app.route("/scrapping/<word>")
+@app.route("/scrapping/<word>", methods=['POST'])
 def scrapping(word):
     # To set your environment variables in your terminal run the following line:
     # export 'BEARER_TOKEN'='<your_bearer_token>'
