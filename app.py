@@ -7,6 +7,7 @@ import os
 import json
 import pandas as pd
 from pandas import json_normalize
+from datetime import date
 
 
 app = Flask(__name__)
@@ -137,26 +138,24 @@ def scrapTweets(word):
     df1["keyword"] = word
     df = df.append(df1)
     df = df.reset_index(drop=True)
-    df.to_excel("tweetbase.xlsx", index=False)
+    file_name = "tweets_" + word + "_" + date.today().strftime("%Y/%m/%d") + ".xlsx"
+    df.to_excel(file_name, index=False)
+    df = pd.read_excel(file_name)
+    s3Client = boto3.client("s3")
+    s3Client.upload_file(
+        Filename=file_name,
+        Bucket="mainbucket",
+        Key=file_name,
+    )
+    os.remove(file_name)
     return redirect('/')
 
 
 @app.route("/readXlsx")
 def readXlsx():
-    df = pd.read_excel("tweetbase.xlsx")
+    filename = "..."
+    df = pd.read_excel(filename)
     print(df)
-    return redirect('/')
-
-
-@app.route("/sendToS3")
-def sendToS3():
-    s3Client = boto3.client("s3")
-    s3Client.upload_file(
-        Filename="tweetbase.xlsx",
-        Bucket="mainbucket",
-        Key="tweetbase.xlsx",
-    )
-    # os.remove("matieres.csv")
     return redirect('/')
 
 
