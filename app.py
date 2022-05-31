@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, url_for, redirect, current_ap
 import mysql.connector
 import boto3
 import os
+import requests
+import os
+import json
+import pandas as pd
+from pandas import json_normalize
 
 
 app = Flask(__name__)
@@ -90,6 +95,49 @@ def downloadCSV():
     f.close()
     os.remove("matieres.csv")
     return Response(csv, mimetype="text/csv", headers={"Content-disposition": "attachment; filename=matieres.csv"})
+
+
+@app.route("/scrapTweets")
+def scrapTweets():
+    # To set your environment variables in your terminal run the following line:
+    # export 'BEARER_TOKEN'='<your_bearer_token>'
+    bearer_token = os.environ.get("AAAAAAAAAAAAAAAAAAAAAKjWbgEAAAAAd71Ej2t93WqhATnBrQcgYPsplS8%3DFoRfmQylzxgUS2mOUL6yt6HAsI1JsBmcxMocnVI1w3EBDn0koZ")
+    # Code sale, token pas caché
+    bearer_token = "AAAAAAAAAAAAAAAAAAAAAKjWbgEAAAAAd71Ej2t93WqhATnBrQcgYPsplS8%3DFoRfmQylzxgUS2mOUL6yt6HAsI1JsBmcxMocnVI1w3EBDn0koZ"
+    search_url = "https://api.twitter.com/2/tweets/search/recent"
+
+    def bearer_oauth(r):
+        """
+        Method required by bearer token authentication.
+        """
+        r.headers["Authorization"] = f"Bearer {bearer_token}"
+        r.headers["User-Agent"] = "v2RecentSearchPython"
+        return r
+
+    def connect_to_endpoint(url, params):
+        response = requests.get(url, auth=bearer_oauth, params=params)
+        print(response.status_code)
+        if response.status_code != 200:
+            print(response.status_code)
+            raise Exception(response.status_code, response.text)
+        return response.json()
+
+    df = pd.DataFrame()
+    link = "https://www.businessinsider.com/elizabeth-holmes-pleads-with-judge-to-overturn-theranos-convictions-2022-5?r=US&IR=T"
+    # Optional params: start_time,end_time,since_id,until_id,max_results,next_token,
+    # expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
+    tweetfields = ['author_id,lang,created_at']
+    word = ""
+    query_params = {'query': word,'tweet.fields': tweetfields, "max_results":100}
+    json_response = connect_to_endpoint(search_url, query_params)
+    results = json.dumps(json_response, indent=4, sort_keys=True)
+    results1 = json.loads(results)
+    df1 = pd.DataFrame.from_dict(results1["data"])
+    df1["link"]= link
+    df1["keyword"] = word
+    df = df.append(df1)
+    df = df.reset_index(drop=True)
+    df.to_excel("tweetbase.xlsx", index=False)
 
 
 class Storage:
