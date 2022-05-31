@@ -56,6 +56,7 @@ def inputComparisonArticles(idArticle):
         tweets.append({'id': str(row[0]), 'authorId': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
     return render_template('viewTweetSelection.html', tweets=tweets, idArticle=idArticle)
 
+
 @app.route('/comparisonById/<idTweet>/<idArticle>', methods=['POST'])
 def comparisonById(idTweet, idArticle):
     storage = Storage()
@@ -138,6 +139,12 @@ def scrapTweets(word):
     df = df.reset_index(drop=True)
     df.to_excel("tweetbase.xlsx", index=False)
     return redirect('/')
+
+
+@app.route("/readXlsx")
+def scrapTweets():
+    df1 = pd.read_excel("tweetbase.xlsx")
+    print(df1)
 
 
 class Storage:
