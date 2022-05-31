@@ -79,6 +79,7 @@ def comparison():
     return render_template('viewComparison.html', keyWord=keyWord)
 
 
+""" Ongoing
 @app.route("/downloadCSV")
 def downloadCSV():
     s3client = boto3.client("s3")
@@ -97,9 +98,15 @@ def downloadCSV():
     f.close()
     os.remove("matieres.csv")
     return Response(csv, mimetype="text/csv", headers={"Content-disposition": "attachment; filename=matieres.csv"})
+"""
 
 
-@app.route("/scrapTweets/<word>")
+@app.route('/inputScrapping', methods=['GET'])
+def inputComparison():
+    return render_template('viewInputScrapping.html')
+
+
+@app.route("/scrapping/<word>")
 def scrapTweets(word):
     # To set your environment variables in your terminal run the following line:
     # export 'BEARER_TOKEN'='<your_bearer_token>'
@@ -138,7 +145,7 @@ def scrapTweets(word):
     df1["keyword"] = word
     df = df.append(df1)
     df = df.reset_index(drop=True)
-    file_name = "tweets_" + word + "_" + date.today().strftime("%Y-%m-%d") + ".xlsx"
+    file_name = date.today().strftime("%Y-%m-%d") + "_tweets_" + word + ".xlsx"
     df.to_excel(file_name, index=False)
     df = pd.read_excel(file_name)
     s3Client = boto3.client("s3")
@@ -151,12 +158,14 @@ def scrapTweets(word):
     return redirect('/')
 
 
+""" Ongoing
 @app.route("/readXlsx")
 def readXlsx():
     filename = "..."
     df = pd.read_excel(filename)
     print(df)
     return redirect('/')
+"""
 
 
 class Storage:
