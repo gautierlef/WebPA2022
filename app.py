@@ -142,7 +142,7 @@ def scrapTweets(word):
 
 
 @app.route("/readXlsx")
-def scrapTweets():
+def readXlsx():
     df1 = pd.read_excel("tweetbase.xlsx")
     print(df1)
 
