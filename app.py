@@ -143,8 +143,21 @@ def scrapTweets(word):
 
 @app.route("/readXlsx")
 def readXlsx():
-    df1 = pd.read_excel("tweetbase.xlsx")
-    print(df1)
+    df = pd.read_excel("tweetbase.xlsx")
+    print(df)
+    return redirect('/')
+
+
+@app.route("/sendToS3")
+def sendToS3():
+    s3Client = boto3.client("s3")
+    s3Client.upload_file(
+        Filename="tweetbase.xlsx",
+        Bucket="mainbucket",
+        Key="tweetbase.xlsx",
+    )
+    # os.remove("matieres.csv")
+    return redirect('/')
 
 
 class Storage:
