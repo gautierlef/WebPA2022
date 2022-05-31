@@ -138,7 +138,7 @@ def scrapTweets(word):
     df1["keyword"] = word
     df = df.append(df1)
     df = df.reset_index(drop=True)
-    file_name = "tweets_" + word + "_" + date.today().strftime("%Y/%m/%d") + ".xlsx"
+    file_name = "tweets_" + word + "_" + date.today().strftime("%Y-%m-%d") + ".xlsx"
     df.to_excel(file_name, index=False)
     df = pd.read_excel(file_name)
     s3Client = boto3.client("s3")
