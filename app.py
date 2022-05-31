@@ -134,9 +134,10 @@ def scrapTweets(word):
     df1 = pd.DataFrame.from_dict(results1["data"])
     df1["link"] = link
     df1["keyword"] = word
-    df = df.append(df1)
+    df = df.concat(df1)
     df = df.reset_index(drop=True)
     df.to_excel("tweetbase.xlsx", index=False)
+    return redirect('/')
 
 
 class Storage:
