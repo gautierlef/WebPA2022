@@ -97,8 +97,8 @@ def downloadCSV():
     return Response(csv, mimetype="text/csv", headers={"Content-disposition": "attachment; filename=matieres.csv"})
 
 
-@app.route("/scrapTweets")
-def scrapTweets():
+@app.route("/scrapTweets/<word>")
+def scrapTweets(word):
     # To set your environment variables in your terminal run the following line:
     # export 'BEARER_TOKEN'='<your_bearer_token>'
     bearer_token = os.environ.get("AAAAAAAAAAAAAAAAAAAAAKjWbgEAAAAAd71Ej2t93WqhATnBrQcgYPsplS8%3DFoRfmQylzxgUS2mOUL6yt6HAsI1JsBmcxMocnVI1w3EBDn0koZ")
@@ -127,13 +127,12 @@ def scrapTweets():
     # Optional params: start_time,end_time,since_id,until_id,max_results,next_token,
     # expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
     tweetfields = ['author_id,lang,created_at']
-    word = ""
-    query_params = {'query': word,'tweet.fields': tweetfields, "max_results":100}
+    query_params = {'query': word, 'tweet.fields': tweetfields, "max_results": 100}
     json_response = connect_to_endpoint(search_url, query_params)
     results = json.dumps(json_response, indent=4, sort_keys=True)
     results1 = json.loads(results)
     df1 = pd.DataFrame.from_dict(results1["data"])
-    df1["link"]= link
+    df1["link"] = link
     df1["keyword"] = word
     df = df.append(df1)
     df = df.reset_index(drop=True)
