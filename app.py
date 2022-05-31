@@ -102,12 +102,12 @@ def downloadCSV():
 
 
 @app.route('/inputScrapping', methods=['GET'])
-def inputComparison():
+def inputScrapping():
     return render_template('viewInputScrapping.html')
 
 
 @app.route("/scrapping/<word>")
-def scrapTweets(word):
+def scrapping(word):
     # To set your environment variables in your terminal run the following line:
     # export 'BEARER_TOKEN'='<your_bearer_token>'
     bearer_token = os.environ.get("AAAAAAAAAAAAAAAAAAAAAKjWbgEAAAAAd71Ej2t93WqhATnBrQcgYPsplS8%3DFoRfmQylzxgUS2mOUL6yt6HAsI1JsBmcxMocnVI1w3EBDn0koZ")
