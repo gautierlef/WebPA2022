@@ -148,7 +148,7 @@ def S3toRDS():
     for obj in mainbucket.objects.all():
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
             s3Client = boto3.client('s3')
-            obj = s3Client.get_object(Bucket=mainbucket, Key=obj.key)
+            obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data), encoding='utf-8')
             Storage.addFromDf(df)
