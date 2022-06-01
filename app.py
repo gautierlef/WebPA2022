@@ -148,7 +148,7 @@ def S3toRDS():
     for obj in mainbucket.objects.all():
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
             xlsx = s3.Object(mainbucket, obj.key)
-            df = pd.read_excel(xlsx, encoding='utf-8')
+            df = pd.read_excel(xlsx)
             Storage.addFromDf(df)
     return redirect('/')
 
