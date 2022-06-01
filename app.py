@@ -149,6 +149,7 @@ def S3toRDS():
     mainbucket = s3.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
+            print(obj.key)
             obj = s3.get_object(Bucket=mainbucket, Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data), encoding='utf-8')
@@ -194,6 +195,7 @@ class Storage:
         cur = self.db.cursor()
         cur.execute('''DELETE FROM Twitt WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
         for row in df.iterrows():
+            print(row)
             cur.execute(''' INSERT INTO Twitt(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
         self.db.commit()
