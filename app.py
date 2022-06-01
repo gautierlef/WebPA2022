@@ -110,7 +110,7 @@ def scrapping():
         return response.json()
 
     df = pd.DataFrame()
-    link = "https://www.businessinsider.com/elizabeth-holmes-pleads-with-judge-to-overturn-theranos-convictions-2022-5?r=US&IR=T"
+    link = "https://twitter.com/anyuser/status/"
     # Optional params: start_time,end_time,since_id,until_id,max_results,next_token,
     # expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
     tweetfields = ['author_id,lang,created_at']
@@ -119,7 +119,7 @@ def scrapping():
     results = json.dumps(json_response, indent=4, sort_keys=True)
     results1 = json.loads(results)
     df1 = pd.DataFrame.from_dict(results1["data"])
-    df1["link"] = link
+    df1["link"] = link + df1["author_id"]
     df1["keyword"] = word
     df = df.append(df1)
     df = df.reset_index(drop=True)
