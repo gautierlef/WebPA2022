@@ -150,7 +150,7 @@ def S3toRDS():
             s3Client = boto3.client('s3')
             obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
             data = obj['Body'].read()
-            df = pd.read_excel(io.BytesIO(data), encoding='utf-8')
+            df = pd.read_excel(io.BytesIO(data))
             Storage.addFromDf(df)
     return redirect('/')
 
