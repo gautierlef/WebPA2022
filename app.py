@@ -144,7 +144,7 @@ def S3toRDS():
         service_name='s3',
         region_name='us-west-1',
         aws_access_key_id='AKIA54H2VD23ORNPZZZW',
-        aws_secret_access_key='+e81f8PLMQhZeQG6l8hvB7mBr43CQZNCEVS'
+        aws_secret_access_key='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'
     )
     mainbucket = s3.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
