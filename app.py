@@ -191,6 +191,7 @@ class Storage:
         return article
 
     def addFromDf(self, df):
+        df = df.reset_index()
         cur = self.db.cursor()
         cur.execute('''DELETE FROM Twitt WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
         for index, row in df.iterrows():
