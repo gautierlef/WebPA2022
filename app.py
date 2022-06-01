@@ -8,6 +8,7 @@ import json
 import pandas as pd
 from pandas import json_normalize
 from datetime import date
+import io
 
 
 app = Flask(__name__)
@@ -79,28 +80,6 @@ def comparison():
     return render_template('viewComparison.html', keyWord=keyWord)
 
 
-""" Ongoing
-@app.route("/downloadCSV")
-def downloadCSV():
-    s3client = boto3.client("s3")
-    s3 = boto3.resource(
-        service_name="s3",
-        region_name="us-east-1",
-        aws_access_key_id="AKIAZMSAVZUGSJ7DUL5J",
-        aws_secret_access_key="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"
-    )
-    mainbucket = s3.Bucket('mainbucket')
-    for obj in mainbucket.objects.all():
-        path, filename = os.path.split(obj.key)
-        mainbucket.download_file(obj.key, filename)
-    with open("matieres.csv") as f:
-        csv = f.read()
-    f.close()
-    os.remove("matieres.csv")
-    return Response(csv, mimetype="text/csv", headers={"Content-disposition": "attachment; filename=matieres.csv"})
-"""
-
-
 @app.route('/inputScrapping', methods=['GET'])
 def inputScrapping():
     return render_template('viewInputScrapping.html')
@@ -159,14 +138,17 @@ def scrapping():
     return redirect('/')
 
 
-""" Ongoing
-@app.route("/readXlsx")
-def readXlsx():
-    filename = "..."
-    df = pd.read_excel(filename)
-    print(df)
+@app.route('/S3toRDS', methods=['GET'])
+def S3toRDS():
+    s3client = boto3.client("s3")
+    mainbucket = s3client.Bucket('mainbucket')
+    for obj in mainbucket.objects.all():
+        if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
+            obj = s3client.get_object(Bucket=mainbucket, Key=obj.key)
+            data = obj['Body'].read()
+            df = pd.read_excel(io.BytesIO(data), encoding='utf-8')
+            Storage.addFromDf(df)
     return redirect('/')
-"""
 
 
 class Storage:
@@ -202,6 +184,14 @@ class Storage:
         cur.execute(''' SELECT id, redactor, date, lang, link, text FROM Article WHERE id = %s ''', (idArticle, ))
         article = cur.fetchall()
         return article
+
+    def addFromDf(self, df):
+        cur = self.db.cursor()
+        cur.execute('''DELETE FROM Twitt WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
+        for row in df.iterrows():
+            cur.execute(''' INSERT INTO Twitt(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
+                        , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
+        self.db.commit()
 
 
 if __name__ == '__main__':
