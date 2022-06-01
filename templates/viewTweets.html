@@ -16,12 +16,12 @@
                 <tbody>
                     {% for tweet in tweets %}
                         <tr>
-                            <td>{{ tweets.id }}</td>
-                            <td>{{ tweets.date }}</td>
-                            <td>{{ tweets.user }}</td>
-                            <td>{{ tweets.link }}</td>
-                            <td>{{ tweets.message }}</td>
-                            <form action="/inputComparisonTweet/{{ tweets.id }}" Method="post">
+                            <td>{{ tweet.id }}</td>
+                            <td>{{ tweet.authorid }}</td>
+                            <td>{{ tweet.date }}</td>
+                            <td>{{ tweet.link }}</td>
+                            <td>{{ tweet.text }}</td>
+                            <form action="/inputComparisonTweet/{{ tweet.id }}" Method="post">
                                 <td><button class="btn btn-danger">Comparer</button></td>
                             </form>
                         </tr>

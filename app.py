@@ -25,8 +25,7 @@ def viewTweets():
     storage = Storage()
     data = storage.loadAllTweets()
     for row in data:
-        tweets.append({'id': str(row[0]), 'authorId': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
-    print(tweets)
+        tweets.append({'id': str(row[0]), 'authorId': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4], 'text': row[5]})
     return render_template('viewTweets.html', tweets=tweets)
 
 
