@@ -138,6 +138,7 @@ def scrapping():
 
 @app.route('/S3toRDS', methods=['GET'])
 def S3toRDS():
+    storage = Storage()
     s3 = boto3.resource(
         service_name='s3',
         region_name='us-west-1',
@@ -151,7 +152,7 @@ def S3toRDS():
             obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data))
-            Storage.addFromDf(df)
+            storage.addFromDf(df)
     return redirect('/')
 
 
