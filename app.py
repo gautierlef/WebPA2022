@@ -140,11 +140,16 @@ def scrapping():
 
 @app.route('/S3toRDS', methods=['GET'])
 def S3toRDS():
-    s3client = boto3.ressource("s3")
-    mainbucket = s3client.Bucket('mainbucket')
+    s3 = boto3.resource(
+        service_name='s3',
+        region_name='us-west-1',
+        aws_access_key_id='AKIA54H2VD23ORNPZZZW',
+        aws_secret_access_key='+e81f8PLMQhZeQG6l8hvB7mBr43CQZNCEVS'
+    )
+    mainbucket = s3.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
-            obj = s3client.get_object(Bucket=mainbucket, Key=obj.key)
+            obj = s3.get_object(Bucket=mainbucket, Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data), encoding='utf-8')
             Storage.addFromDf(df)
