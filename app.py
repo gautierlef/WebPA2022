@@ -140,7 +140,7 @@ def scrapping():
 
 @app.route('/S3toRDS', methods=['GET'])
 def S3toRDS():
-    s3client = boto3.client("s3")
+    s3client = boto3.ressource("s3")
     mainbucket = s3client.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
