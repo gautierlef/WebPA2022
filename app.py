@@ -105,9 +105,7 @@ def scrapping():
 
     def connect_to_endpoint(url, params):
         response = requests.get(url, auth=bearer_oauth, params=params)
-        print(response.status_code)
         if response.status_code != 200:
-            print(response.status_code)
             raise Exception(response.status_code, response.text)
         return response.json()
 
@@ -148,10 +146,8 @@ def S3toRDS():
     )
     mainbucket = s3.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
-        print(obj.key + ' --- ' + date.today().strftime("%Y-%m-%d"))
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
-            print(obj.key)
-            obj = s3.get_object(Bucket=mainbucket, Key=obj.key)
+            obj = s3.Object(Bucket=mainbucket, Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data), encoding='utf-8')
             Storage.addFromDf(df)
@@ -196,7 +192,6 @@ class Storage:
         cur = self.db.cursor()
         cur.execute('''DELETE FROM Twitt WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
         for row in df.iterrows():
-            print(row)
             cur.execute(''' INSERT INTO Twitt(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
         self.db.commit()
