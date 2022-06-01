@@ -193,8 +193,8 @@ class Storage:
     def addFromDf(self, df):
         cur = self.db.cursor()
         cur.execute('''DELETE FROM Twitt WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
-        print(df.iterrows())
         for row in df.iterrows():
+            print(row)
             cur.execute(''' INSERT INTO Twitt(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
         self.db.commit()
