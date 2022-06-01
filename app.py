@@ -148,6 +148,7 @@ def S3toRDS():
     )
     mainbucket = s3.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
+        print(obj.key + ' --- ' + date.today().strftime("%Y-%m-%d"))
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
             print(obj.key)
             obj = s3.get_object(Bucket=mainbucket, Key=obj.key)
