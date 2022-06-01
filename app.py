@@ -168,7 +168,7 @@ class Storage:
 
     def loadAllTweets(self):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Twitt ''')
+        cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Tweet ''')
         data = cur.fetchall()
         return data
 
@@ -180,7 +180,7 @@ class Storage:
 
     def loadTweet(self, idTweet):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Twitt WHERE id = %s ''', (idTweet, ))
+        cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Tweet WHERE id = %s ''', (idTweet, ))
         tweet = cur.fetchall()
         return tweet
 
@@ -193,9 +193,9 @@ class Storage:
     def addFromDf(self, df):
         df = df.reset_index()
         cur = self.db.cursor()
-        cur.execute('''DELETE FROM Twitt WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
+        cur.execute('''DELETE FROM Tweet WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
         for index, row in df.iterrows():
-            cur.execute(''' INSERT INTO Twitt(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
+            cur.execute(''' INSERT INTO Tweet(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
         self.db.commit()
 
