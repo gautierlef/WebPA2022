@@ -62,11 +62,9 @@ def researchRelatedTweet(idArticle):
     total = len(data)
     for row in data:
         # print(str(count) + '/' + str(total))
-        print(article['tag'])
         tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
         for tag in tags:
-            print(row['text'])
-            if tag.lower() in row['text'].lower():
+            if tag.lower() in row[5].lower():
                 prediction = getPrediction(article['title'], row[5])
                 if prediction == 'En cohérence' or prediction == 'Neutres':
                     tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3],
