@@ -89,7 +89,7 @@ def allComparison():
     i = 0
     total = len(articles) + len(tweets)
     for article in articles:
-        predictions[i] = {'title': article['title'], 'mean_score': 0.0}
+        predictions.append({'title': article['title'], 'mean_score': 0.0})
         total_score = 0.0
         for tweet in tweets:
             print(str(count) + '/' + str(total))
@@ -100,6 +100,7 @@ def allComparison():
             elif prediction == 'Neutres':
                 total_score += 1
         predictions[i]['mean_score'] = total_score / len(tweets)
+        i += 1
     return render_template('viewPredictions.html', predictions=predictions)
 
 
