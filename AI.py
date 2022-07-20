@@ -28,6 +28,7 @@ model = BERTNLIModel(bert_model,
                      HIDDEN_DIM,
                      OUTPUT_DIM,
                      ).to(device)
+print("TEST")
 model.load_state_dict(torch.load('./models/bert-nli.pt', map_location=torch.device('cpu')))
 model.eval()
 
