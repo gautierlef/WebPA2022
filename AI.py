@@ -136,9 +136,9 @@ from transformers import BertTokenizer
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 LABEL = ['entailment', 'contradiction', 'neutral']
-LABEL
 
-premise = 'a man sitting on a green bench.'
-hypothesis = 'a woman sitting on a green bench.'
 
-predict_inference(premise, hypothesis, model, device)
+def getPrediction(premise, hypothesis):
+    # premise = 'a man sitting on a green bench.'
+    # hypothesis = 'a woman sitting on a green bench.'
+    print(predict_inference(premise, hypothesis, model, device))

@@ -9,7 +9,7 @@ import pandas as pd
 from pandas import json_normalize
 from datetime import date
 import io
-
+from AI import getPrediction
 
 app = Flask(__name__)
 
@@ -66,7 +66,7 @@ def comparisonById(idTweet, idArticle):
     articleData = storage.loadArticle(idArticle)[0]
     tweet = {'id': str(tweetData[0]), 'authorId': str(tweetData[1]), 'date': str(tweetData[2]), 'lang': tweetData[3], 'link': tweetData[3], 'text': tweetData[4]}
     article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3], 'link': articleData[3], 'text': articleData[4], 'tag': articleData[5]}
-    
+    getPrediction(article['title'], tweet['text'])
     return render_template('viewArticleSelection.html')
 
 
