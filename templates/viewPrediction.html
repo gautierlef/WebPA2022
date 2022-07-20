@@ -23,16 +23,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for article in articles %}
-                        <tr>
-                            <td>{{ article.id }}</td>
-                            <td>{{ article.title }}</td>
-                            <td>{{ article.link }}</td>
-                            <td>{{ article.lang }}</td>
-                            <td>{{ article.text }}</td>
-                            <td>{{ article.tag }}</td>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <td>{{ article.id }}</td>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.link }}</td>
+                        <td>{{ article.lang }}</td>
+                        <td>{{ article.text }}</td>
+                        <td>{{ article.tag }}</td>
+                    </tr>
                 </tbody>
             <br/>
             <form action="/" Method="get" style="margin: auto;">
@@ -51,15 +49,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for tweet in tweets %}
-                        <tr>
-                            <td>{{ tweet.id }}</td>
-                            <td>{{ tweet.authorid }}</td>
-                            <td>{{ tweet.date }}</td>
-                            <td>{{ tweet.link }}</td>
-                            <td>{{ tweet.text }}</td>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <td>{{ tweet.id }}</td>
+                        <td>{{ tweet.authorid }}</td>
+                        <td>{{ tweet.date }}</td>
+                        <td>{{ tweet.link }}</td>
+                        <td>{{ tweet.text }}</td>
+                    </tr>
                 </tbody>
             <br/>
             <form action="/" Method="get" style="margin: auto;">
