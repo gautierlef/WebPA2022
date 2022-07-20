@@ -176,7 +176,7 @@ def S3toRDS():
             df = pd.read_excel(io.BytesIO(data))
             storage.addTwittsFromDf(df)
         # Articles
-        if obj.key.startswith('articles'):
+        elif obj.key.startswith('articles'):
             s3Client = boto3.client('s3')
             obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
             data = obj['Body'].read()
