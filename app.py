@@ -71,8 +71,8 @@ def researchRelatedTweet(idArticle):
     return render_template('viewTweets.html', tweets=tweets, article=article)
 
 
-@app.route('/allComparisonArticle', methods=['POST'])
-def allComparisonArticle():
+@app.route('/allComparison', methods=['GET'])
+def allComparison():
     tweets = []
     articles = []
     storage = Storage()
