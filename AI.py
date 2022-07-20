@@ -76,7 +76,7 @@ tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 LABEL = ['entailment', 'contradiction', 'neutral']
 
 
-def getPrediction(premise, hypothesis):
-    # premise = 'a man sitting on a green bench.'
-    # hypothesis = 'a woman sitting on a green bench.'
-    return predict_inference(premise, hypothesis, model, device)
+#def getPrediction(premise, hypothesis):
+premise = 'a man sitting on a green bench.'
+hypothesis = 'a woman sitting on a green bench.'
+print(predict_inference(premise, hypothesis, model, device))
