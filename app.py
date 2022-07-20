@@ -91,7 +91,7 @@ def comparisonById(idTweet, idArticle):
              'link': tweetData[4], 'text': tweetData[5]}
     article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3],
                'text': articleData[4], 'tag': articleData[5]}
-    prediction = getPrediction(article['text'], tweet['text'])
+    prediction = getPrediction(article['title'], tweet['text'])
     return render_template('viewPrediction.html', article=article, tweet=tweet, prediction=prediction)
 
 
