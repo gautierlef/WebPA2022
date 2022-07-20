@@ -93,7 +93,7 @@ def allComparison():
         total_score = 0.0
         for tweet in tweets:
             print(str(count) + '/' + str(total))
-            prediction = getPrediction(article['title'], tweet[5])
+            prediction = getPrediction(article['title'], tweet['text'])
             count += 1
             if prediction == 'En cohérence':
                 total_score += 3
