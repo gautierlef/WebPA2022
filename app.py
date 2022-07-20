@@ -93,6 +93,7 @@ def allComparison():
         total_score = 0.0
         related_tweet_count = 0
         tags = article['tag'].replace('[', '').replace('\'', '').split(',')
+        print(tags)
         for tweet in tweets:
             print(str(count) + '/' + str(total))
             tweet_related = False
