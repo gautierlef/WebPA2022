@@ -35,7 +35,7 @@ def inputComparisonTweet(idTweet):
     storage = Storage()
     data = storage.loadAllArticles()
     for row in data:
-        articles.append({'id': str(row[0]), 'Redactor': row[1], 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
+        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[3], 'tag': row[4]})
     return render_template('viewArticleSelection.html', articles=articles, idTweet=idTweet)
 
 
@@ -45,7 +45,7 @@ def viewArticles():
     storage = Storage()
     data = storage.loadAllArticles()
     for row in data:
-        articles.append({'id': str(row[0]), 'Redactor': row[1], 'date': str(row[2]), 'lang': row[3], 'link': row[3], 'text': row[4]})
+        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[3], 'tag': row[4]})
     return render_template('viewArticles.html', articles=articles)
 
 
@@ -88,10 +88,7 @@ def inputScrapping():
 @app.route("/scrapping", methods=['POST'])
 def scrapping():
     word = request.form['word']
-    # To set your environment variables in your terminal run the following line:
-    # export 'BEARER_TOKEN'='<your_bearer_token>'
     bearer_token = os.environ.get("AAAAAAAAAAAAAAAAAAAAAKjWbgEAAAAAd71Ej2t93WqhATnBrQcgYPsplS8%3DFoRfmQylzxgUS2mOUL6yt6HAsI1JsBmcxMocnVI1w3EBDn0koZ")
-    # Code sale, token pas caché
     bearer_token = "AAAAAAAAAAAAAAAAAAAAAKjWbgEAAAAAd71Ej2t93WqhATnBrQcgYPsplS8%3DFoRfmQylzxgUS2mOUL6yt6HAsI1JsBmcxMocnVI1w3EBDn0koZ"
     search_url = "https://api.twitter.com/2/tweets/search/recent"
 
@@ -111,8 +108,6 @@ def scrapping():
 
     df = pd.DataFrame()
     link = "https://twitter.com/anyuser/status/"
-    # Optional params: start_time,end_time,since_id,until_id,max_results,next_token,
-    # expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
     tweetfields = ['author_id,lang,created_at']
     query_params = {'query': word, 'tweet.fields': tweetfields, "max_results": 100}
     json_response = connect_to_endpoint(search_url, query_params)
