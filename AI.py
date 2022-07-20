@@ -21,21 +21,6 @@ class BERTNLIModel(nn.Module):
         return output
 
 
-HIDDEN_DIM = 1024
-OUTPUT_DIM = 3
-print("hello1")
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print("hello2")
-bert_model = BertModel.from_pretrained('bert-base-uncased')
-print("hello3")
-model = BERTNLIModel(bert_model,
-                     HIDDEN_DIM,
-                     OUTPUT_DIM,
-                     ).to(device)
-model.load_state_dict(torch.load('./models/bert-nli.pt', map_location=torch.device('cpu')))
-model.eval()
-
-
 def predict_inference(premise, hypothesis, model, device):
     model.eval()
     premise = '[CLS] ' + premise + ' [SEP]'
@@ -75,9 +60,22 @@ def get_sent2_token_type(sent):
         return []
 
 
+HIDDEN_DIM = 1024
+OUTPUT_DIM = 3
+print("hello1")
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("hello2")
+bert_model = BertModel.from_pretrained('bert-base-uncased')
+print("hello3")
+model = BERTNLIModel(bert_model,
+                     HIDDEN_DIM,
+                     OUTPUT_DIM,
+                     ).to(device)
+model.load_state_dict(torch.load('./models/bert-nli.pt', map_location=torch.device('cpu')))
+model.eval()
+
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 LABEL = ['entailment', 'contradiction', 'neutral']
-
 
 #def getPrediction(premise, hypothesis):
 premise = 'a man sitting on a green bench.'
