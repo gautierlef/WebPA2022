@@ -35,7 +35,7 @@ def inputComparisonTweet(idTweet):
     storage = Storage()
     data = storage.loadAllArticles()
     for row in data:
-        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[3], 'tag': row[4]})
+        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4], 'tag': row[5]})
     return render_template('viewArticleSelection.html', articles=articles, idTweet=idTweet)
 
 

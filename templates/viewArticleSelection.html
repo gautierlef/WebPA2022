@@ -6,10 +6,11 @@
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Rédacteur</th>
+                        <th scope="col">Titre</th>
                         <th scope="col">Lien</th>
+                        <th scope="col">Langue</th>
                         <th scope="col">Contenu</th>
+                        <th scope="col">Tag</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -17,11 +18,12 @@
                     {% for article in articles %}
                         <tr>
                             <td>{{ article.id }}</td>
-                            <td>{{ article.date }}</td>
-                            <td>{{ article.user }}</td>
+                            <td>{{ article.title }}</td>
                             <td>{{ article.link }}</td>
-                            <td>{{ article.content }}</td>
-                            <form action="/comparison/{{ idTweet }}/{{ article.id }}" Method="post">
+                            <td>{{ article.lang }}</td>
+                            <td>{{ article.text }}</td>
+                            <td>{{ article.tag }}</td>
+                            <form action="/inputComparisonArticle/{{ article.id }}" Method="post">
                                 <td><button class="btn btn-danger">Comparer</button></td>
                             </form>
                         </tr>
