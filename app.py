@@ -206,7 +206,7 @@ class Storage:
         cur.execute('''DELETE FROM Article''')
         for index, row in df.iterrows():
             cur.execute(''' INSERT INTO Article(title, lang, link, text, tag) VALUES (%s, %s, %s, %s, %s) '''
-                        , (row['title'], 'ENG', row['link'], row['body'], row['tag']))
+                        , (row['title'], 'ENG', row['link'], row['body'], row['tags']))
         self.db.commit()
 
 
