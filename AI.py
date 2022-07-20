@@ -30,6 +30,7 @@ model = BERTNLIModel(bert_model,
                      ).to(device)
 print("TEST")
 model.load_state_dict(torch.load('./models/bert-nli.pt', map_location=torch.device('cpu')))
+print("TEST2")
 model.eval()
 
 
