@@ -25,6 +25,7 @@ HIDDEN_DIM = 1024
 OUTPUT_DIM = 3
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 bert_model = BertModel.from_pretrained('bert-base-uncased')
+print("hello")
 model = BERTNLIModel(bert_model,
                      HIDDEN_DIM,
                      OUTPUT_DIM,
