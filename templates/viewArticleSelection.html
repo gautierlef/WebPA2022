@@ -23,7 +23,7 @@
                             <td>{{ article.lang }}</td>
                             <td>{{ article.text }}</td>
                             <td>{{ article.tag }}</td>
-                            <form action="/inputComparisonArticle/{{ article.id }}/{{ idTweet }}" Method="post">
+                            <form action="/comparisonById/{{ idTweet }}/{{ article.id }}" Method="post">
                                 <td><button class="btn btn-danger">Comparer</button></td>
                             </form>
                         </tr>
