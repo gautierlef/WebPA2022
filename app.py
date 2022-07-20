@@ -66,8 +66,9 @@ def comparisonById(idTweet, idArticle):
     articleData = storage.loadArticle(idArticle)[0]
     tweet = {'id': str(tweetData[0]), 'authorId': str(tweetData[1]), 'date': str(tweetData[2]), 'lang': tweetData[3], 'link': tweetData[3], 'text': tweetData[4]}
     article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3], 'link': articleData[3], 'text': articleData[4], 'tag': articleData[5]}
-    getPrediction(article['title'], tweet['text'])
-    return render_template('viewArticleSelection.html')
+    prediction = getPrediction(article['text'], tweet['text'])
+    print(prediction)
+    return render_template('viewPrediction.html')
 
 
 @app.route('/inputComparison', methods=['GET'])
@@ -143,12 +144,14 @@ def S3toRDS():
     )
     mainbucket = s3.Bucket('mainbucket')
     for obj in mainbucket.objects.all():
+        # Tweets
         if obj.key.startswith(date.today().strftime("%Y-%m-%d")):
             s3Client = boto3.client('s3')
             obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data))
             storage.addTwittsFromDf(df)
+        # Articles
         if obj.key.startswith('articles'):
             s3Client = boto3.client('s3')
             obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)

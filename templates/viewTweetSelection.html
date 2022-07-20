@@ -21,7 +21,7 @@
                             <td>{{ tweet.user }}</td>
                             <td>{{ tweet.link }}</td>
                             <td>{{ tweet.message }}</td>
-                            <form action="/comparison/{{ tweet.id }}/{{ idArticle }}" Method="post">
+                            <form action="/comparisonById/{{ tweet.id }}/{{ idArticle }}" Method="post">
                                 <td><button class="btn btn-danger">Comparer</button></td>
                             </form>
                         </tr>
