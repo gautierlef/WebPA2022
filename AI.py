@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch
 from transformers import BertModel
+import os
 
 HIDDEN_DIM = 1024
 OUTPUT_DIM = 3
@@ -29,6 +30,8 @@ model = BERTNLIModel(bert_model,
                      OUTPUT_DIM,
                      ).to(device)
 print("TEST")
+size = os.path.getsize('./models/bert-nli.pt')
+print('Size of file is', size, 'bytes')
 model.load_state_dict(torch.load('./models/bert-nli.pt', map_location=torch.device('cpu')))
 print("TEST2")
 model.eval()
