@@ -64,7 +64,7 @@ def researchRelatedTweet(idArticle):
     total = len(data)
     for row in data:
         print(str(count) + '/' + str(total))
-        print(article['title'], row[5])
+        # print(article['title'], row[5])
         prediction = getPrediction(article['title'], row[5])
         print(prediction)
         if prediction == 'En cohérence' or prediction == 'Neutres':
