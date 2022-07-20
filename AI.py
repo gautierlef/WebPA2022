@@ -3,8 +3,6 @@ import torch
 from transformers import BertModel
 from transformers import BertTokenizer
 
-print("hello1")
-
 
 class BERTNLIModel(nn.Module):
     def __init__(self,
@@ -25,9 +23,11 @@ class BERTNLIModel(nn.Module):
 
 HIDDEN_DIM = 1024
 OUTPUT_DIM = 3
+print("hello1")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("hello2")
 bert_model = BertModel.from_pretrained('bert-base-uncased')
-print("hello")
+print("hello3")
 model = BERTNLIModel(bert_model,
                      HIDDEN_DIM,
                      OUTPUT_DIM,
