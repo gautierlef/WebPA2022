@@ -61,7 +61,7 @@ def researchRelatedTweet(idArticle):
                'text': articleData[4], 'tag': articleData[5]}
     data = storage.loadAllTweets()
     for row in data:
-        if getPrediction(articleData['text'], row['text']) == 'En cohérence':
+        if getPrediction(article['text'], row['text']) == 'En cohérence':
             tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3],
                            'link': row[4], 'text': row[5]})
     return render_template('viewTweets.html', tweets=tweets, article=article)
