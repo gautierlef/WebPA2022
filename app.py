@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request, url_for, redirect, current_app, send_from_directory, Response
+from flask import Flask, render_template, request, redirect
 import mysql.connector
 import boto3
-import os
 import requests
 import os
 import json
 import pandas as pd
-from pandas import json_normalize
 from datetime import date
 import io
 from AI import getPrediction
@@ -64,7 +62,6 @@ def researchRelatedTweet(idArticle):
     total = len(data)
     for row in data:
         print(str(count) + '/' + str(total))
-        # print(article['title'], row[5])
         prediction = getPrediction(article['title'], row[5])
         print(prediction)
         if prediction == 'En cohérence' or prediction == 'Neutres':
