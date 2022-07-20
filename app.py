@@ -91,15 +91,25 @@ def allComparison():
     for article in articles:
         predictions.append({'title': article['title'], 'mean_score': 0.0})
         total_score = 0.0
+        related_tweet_count = 0
+        tags = article['tag'].replace('[', '').replace('\'').split(',')
         for tweet in tweets:
             print(str(count) + '/' + str(total))
-            prediction = getPrediction(article['title'], tweet['text'])
+            tweet_related = False
+            for tag in tags:
+                if tag in article['text']:
+                    related_tweet_count += 1
+                    tweet_related = True
+                    print("Tweet related")
+                    break
+            if tweet_related:
+                prediction = getPrediction(article['title'], tweet['text'])
+                if prediction == 'En cohérence':
+                    total_score += 3
+                elif prediction == 'Neutres':
+                    total_score += 1
             count += 1
-            if prediction == 'En cohérence':
-                total_score += 3
-            elif prediction == 'Neutres':
-                total_score += 1
-        predictions[i]['mean_score'] = total_score / len(tweets)
+        predictions[i]['mean_score'] = total_score / related_tweet_count
         i += 1
     return render_template('viewPredictions.html', predictions=predictions)
 
