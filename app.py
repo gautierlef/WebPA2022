@@ -61,12 +61,14 @@ def researchRelatedTweet(idArticle):
     count = 0
     total = len(data)
     for row in data:
-        print(str(count) + '/' + str(total))
-        prediction = getPrediction(article['title'], row[5])
-        print(prediction)
-        if prediction == 'En cohérence' or prediction == 'Neutres':
-            tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3],
-                           'link': row[4], 'text': row[5]})
+        # print(str(count) + '/' + str(total))
+        tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
+        for tag in tags:
+            if tag.lower() in row['text'].lower():
+                prediction = getPrediction(article['title'], row[5])
+                if prediction == 'En cohérence' or prediction == 'Neutres':
+                    tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3],
+                                   'link': row[4], 'text': row[5]})
         count += 1
     return render_template('viewTweets.html', tweets=tweets, article=article)
 
@@ -94,13 +96,12 @@ def allComparison():
         related_tweet_count = 0
         tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
         for tweet in tweets:
-            print(str(count) + '/' + str(total))
+            # print(str(count) + '/' + str(total))
             tweet_related = False
             for tag in tags:
                 if tag.lower() in tweet['text'].lower():
                     related_tweet_count += 1
                     tweet_related = True
-                    print("Tweet related")
                     break
             if tweet_related:
                 prediction = getPrediction(article['title'], tweet['text'])
