@@ -3,6 +3,7 @@ import torch
 from transformers import BertModel
 from transformers import BertTokenizer
 
+
 class BERTNLIModel(nn.Module):
     def __init__(self,
                  bert_model,

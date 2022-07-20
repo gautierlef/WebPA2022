@@ -1,0 +1,70 @@
+{% include 'viewHeader.html' %}
+
+        <br>
+        <br>
+        <div style="text-align: center;" class="container-fluid">
+            <div style="width: 30%; border: 1px solid black; background-color: #efefef; margin: auto;">
+                <h3 style="font-weight:bold;text-decoration:underline;">L'article et le tweet sont :</h3>
+                <br/>
+                <h3 style="font-weight:bold;">{{ prediction }}</h3>
+                <br/>
+                <br/>
+            </div>
+        </div>
+		<table style="width: 59.5%; background-color:whitesmoke; border-radius: 5px; margin: auto;" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Lien</th>
+                        <th scope="col">Langue</th>
+                        <th scope="col">Contenu</th>
+                        <th scope="col">Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.id }}</td>
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.link }}</td>
+                            <td>{{ article.lang }}</td>
+                            <td>{{ article.text }}</td>
+                            <td>{{ article.tag }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            <br/>
+            <form action="/" Method="get" style="margin: auto;">
+                <td><button class="btn btn-warning">Retour</button></td>
+            </form>
+            </table>
+            <br/>
+            <table style="width: 59.5%; background-color:whitesmoke; border-radius: 5px; margin: auto;" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Utilisateur</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Lien</th>
+                        <th scope="col">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tweet in tweets %}
+                        <tr>
+                            <td>{{ tweet.id }}</td>
+                            <td>{{ tweet.authorid }}</td>
+                            <td>{{ tweet.date }}</td>
+                            <td>{{ tweet.link }}</td>
+                            <td>{{ tweet.text }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            <br/>
+            <form action="/" Method="get" style="margin: auto;">
+                <td><button class="btn btn-warning">Retour</button></td>
+            </form>
+            </table>
+
+{% include 'viewFooter.html' %}
