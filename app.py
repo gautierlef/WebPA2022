@@ -64,6 +64,8 @@ def comparisonById(idTweet, idArticle):
     storage = Storage()
     tweetData = storage.loadTweet(idTweet)
     articleData = storage.loadArticle(idArticle)
+    print(articleData)
+    print(tweetData)
     tweet = {'id': str(tweetData[0]), 'authorId': str(tweetData[1]), 'date': str(tweetData[2]), 'lang': tweetData[3], 'link': tweetData[3], 'text': tweetData[4]}
     article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3], 'link': articleData[3], 'text': articleData[4], 'tag': articleData[5]}
     print(tweet)
