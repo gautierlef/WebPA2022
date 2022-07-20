@@ -64,6 +64,7 @@ def researchRelatedTweet(idArticle):
         # print(str(count) + '/' + str(total))
         tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
         for tag in tags:
+            print(tag, row['text'])
             if tag.lower() in row['text'].lower():
                 prediction = getPrediction(article['title'], row[5])
                 if prediction == 'En cohérence' or prediction == 'Neutres':
