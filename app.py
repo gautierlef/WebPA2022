@@ -62,16 +62,17 @@ def researchRelatedTweet(idArticle):
     total = len(data)
     for row in data:
         # print(str(count) + '/' + str(total))
+        print(article['tag'])
         tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
         for tag in tags:
-            print(tag, row['text'])
+            print(row['text'])
             if tag.lower() in row['text'].lower():
                 prediction = getPrediction(article['title'], row[5])
                 if prediction == 'En cohérence' or prediction == 'Neutres':
                     tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3],
                                    'link': row[4], 'text': row[5]})
         count += 1
-    return render_template('viewTweets.html', tweets=tweets, article=article)
+    return render_template('viewTweets.html', tweets=tweets)
 
 
 @app.route('/allComparison', methods=['GET'])
@@ -263,7 +264,7 @@ class Storage:
 
     def loadArticle(self, idArticle):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, title, lang, link, text, tag FROM Article WHERE id = %s ''', (idArticle, ))
+        cur.execute(''' SELECT id, title, link, lang, text, tag FROM Article WHERE id = %s ''', (idArticle, ))
         article = cur.fetchall()
         return article
 
