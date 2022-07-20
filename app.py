@@ -71,6 +71,38 @@ def researchRelatedTweet(idArticle):
     return render_template('viewTweets.html', tweets=tweets, article=article)
 
 
+@app.route('/allComparisonArticle', methods=['POST'])
+def allComparisonArticle():
+    tweets = []
+    articles = []
+    storage = Storage()
+    articlesData = storage.loadAllArticles()
+    tweetsData = storage.loadAllTweets()
+    for row in articlesData:
+        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4],
+                         'tag': row[5]})
+    for row in tweetsData:
+        tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4],
+                       'text': row[5]})
+    predictions = []
+    count = 0
+    i = 0
+    total = len(articles) + len(tweets)
+    for article in articles:
+        predictions[i] = {'title': article['title'], 'mean_score': 0.0}
+        total_score = 0.0
+        for tweet in tweets:
+            print(str(count) + '/' + str(total))
+            prediction = getPrediction(article['title'], tweet[5])
+            count += 1
+            if prediction == 'En cohérence':
+                total_score += 3
+            elif prediction == 'Neutres':
+                total_score += 1
+        predictions[i]['mean_score'] = total_score / len(tweets)
+    return render_template('viewPredictions.html', predictions=predictions)
+
+
 @app.route('/inputComparisonArticle/<idArticle>', methods=['POST'])
 def inputComparisonArticle(idArticle):
     tweets = []
