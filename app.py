@@ -109,7 +109,10 @@ def allComparison():
                 elif prediction == 'Neutres':
                     total_score += 1
             count += 1
-        predictions[i]['mean_score'] = total_score / related_tweet_count
+        if related_tweet_count != 0:
+            predictions[i]['mean_score'] = total_score / related_tweet_count
+        else:
+            predictions[i]['mean_score'] = 0
         i += 1
     return render_template('viewPredictions.html', predictions=predictions)
 
