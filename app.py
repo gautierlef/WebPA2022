@@ -49,8 +49,8 @@ def viewArticles():
     return render_template('viewArticles.html', articles=articles)
 
 
-@app.route('/inputComparisonArticles/<idArticle>', methods=['POST'])
-def inputComparisonArticles(idArticle):
+@app.route('/inputComparisonArticle/<idArticle>', methods=['POST'])
+def inputComparisonArticle(idArticle):
     tweets = []
     storage = Storage()
     data = storage.loadAllTweets()
