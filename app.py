@@ -152,7 +152,13 @@ def S3toRDS():
             obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data))
-            storage.addFromDf(df)
+            storage.addTwittsFromDf(df)
+        if obj.key.startswith('articles'):
+            s3Client = boto3.client('s3')
+            obj = s3Client.get_object(Bucket="mainbucket", Key=obj.key)
+            data = obj['Body'].read()
+            df = pd.read_excel(io.BytesIO(data))
+            storage.addArticlesFromDf(df)
     return redirect('/')
 
 
@@ -174,7 +180,7 @@ class Storage:
 
     def loadAllArticles(self):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, redactor, date, lang, link, text FROM Article ''')
+        cur.execute(''' SELECT id, title, link, lang, text, tag FROM Article ''')
         data = cur.fetchall()
         return data
 
@@ -186,17 +192,26 @@ class Storage:
 
     def loadArticle(self, idArticle):
         cur = self.db.cursor()
-        cur.execute(''' SELECT id, redactor, date, lang, link, text FROM Article WHERE id = %s ''', (idArticle, ))
+        cur.execute(''' SELECT id, title, lang, link, text, tag FROM Article WHERE id = %s ''', (idArticle, ))
         article = cur.fetchall()
         return article
 
-    def addFromDf(self, df):
+    def addTwittsFromDf(self, df):
         df = df.reset_index()
         cur = self.db.cursor()
         cur.execute('''DELETE FROM Tweet WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
         for index, row in df.iterrows():
             cur.execute(''' INSERT INTO Tweet(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
+        self.db.commit()
+
+    def addArticlesFromDf(self, df):
+        df = df.reset_index()
+        cur = self.db.cursor()
+        cur.execute('''DELETE FROM Article''')
+        for index, row in df.iterrows():
+            cur.execute(''' INSERT INTO Article(title, lang, link, text, tag) VALUES (%s, %s, %s, %s, %s) '''
+                        , (row['title'], 'ENG', row['link'], row['text'], row['tag']))
         self.db.commit()
 
 
