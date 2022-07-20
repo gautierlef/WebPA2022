@@ -12,6 +12,7 @@
                         <th scope="col">Contenu</th>
                         <th scope="col">Tag</th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +26,9 @@
                             <td>{{ article.tag }}</td>
                             <form action="/inputComparisonArticle/{{ article.id }}" Method="post">
                                 <td><button class="btn btn-danger">Comparer</button></td>
+                            </form>
+                            <form action="/researchRelatedTweet/{{ article.id }}" Method="post">
+                                <td><button class="btn btn-danger">Rechercher</button></td>
                             </form>
                         </tr>
                     {% endfor %}

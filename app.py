@@ -25,7 +25,8 @@ def viewTweets():
     storage = Storage()
     data = storage.loadAllTweets()
     for row in data:
-        tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4], 'text': row[5]})
+        tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4],
+                       'text': row[5]})
     return render_template('viewTweets.html', tweets=tweets)
 
 
@@ -35,7 +36,8 @@ def inputComparisonTweet(idTweet):
     storage = Storage()
     data = storage.loadAllArticles()
     for row in data:
-        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4], 'tag': row[5]})
+        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4],
+                         'tag': row[5]})
     return render_template('viewArticleSelection.html', articles=articles, idTweet=idTweet)
 
 
@@ -45,8 +47,24 @@ def viewArticles():
     storage = Storage()
     data = storage.loadAllArticles()
     for row in data:
-        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4], 'tag': row[5]})
+        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4],
+                         'tag': row[5]})
     return render_template('viewArticles.html', articles=articles)
+
+
+@app.route('/researchRelatedTweet/<idArticle>', methods=['POST'])
+def researchRelatedTweet(idArticle):
+    tweets = []
+    storage = Storage()
+    articleData = storage.loadArticle(idArticle)[0]
+    article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3],
+               'text': articleData[4], 'tag': articleData[5]}
+    data = storage.loadAllTweets()
+    for row in data:
+        if getPrediction(articleData['text'], row['text']) == 'En cohérence':
+            tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3],
+                           'link': row[4], 'text': row[5]})
+    return render_template('viewTweets.html', tweets=tweets, article=article)
 
 
 @app.route('/inputComparisonArticle/<idArticle>', methods=['POST'])
@@ -55,7 +73,8 @@ def inputComparisonArticle(idArticle):
     storage = Storage()
     data = storage.loadAllTweets()
     for row in data:
-        tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4], 'text': row[5]})
+        tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4],
+                       'text': row[5]})
     return render_template('viewTweetSelection.html', tweets=tweets, idArticle=idArticle)
 
 
@@ -64,8 +83,10 @@ def comparisonById(idTweet, idArticle):
     storage = Storage()
     tweetData = storage.loadTweet(idTweet)[0]
     articleData = storage.loadArticle(idArticle)[0]
-    tweet = {'id': str(tweetData[0]), 'authorid': str(tweetData[1]), 'date': str(tweetData[2]), 'lang': tweetData[3], 'link': tweetData[4], 'text': tweetData[5]}
-    article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3], 'link': articleData[3], 'text': articleData[4], 'tag': articleData[5]}
+    tweet = {'id': str(tweetData[0]), 'authorid': str(tweetData[1]), 'date': str(tweetData[2]), 'lang': tweetData[3],
+             'link': tweetData[4], 'text': tweetData[5]}
+    article = {'id': str(articleData[0]), 'title': articleData[1], 'link': str(articleData[2]), 'lang': articleData[3],
+               'text': articleData[4], 'tag': articleData[5]}
     prediction = getPrediction(article['text'], tweet['text'])
     return render_template('viewPrediction.html', article=article, tweet=tweet, prediction=prediction)
 
