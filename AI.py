@@ -75,4 +75,4 @@ model = BERTNLIModel(bert_model,
 model.load_state_dict(torch.load('./models/bert-nli.pt', map_location=torch.device('cpu')))
 model.eval()
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-LABEL = ['entailment', 'contradiction', 'neutral']
+LABEL = ['En cohérence', 'En contradiction', 'Neutres']
