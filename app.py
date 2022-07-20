@@ -97,7 +97,7 @@ def allComparison():
             print(str(count) + '/' + str(total))
             tweet_related = False
             for tag in tags:
-                if tag in tweet['text']:
+                if tag.lower() in tweet['text'].lower():
                     related_tweet_count += 1
                     tweet_related = True
                     print("Tweet related")
