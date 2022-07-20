@@ -87,7 +87,7 @@ def allComparison():
     predictions = []
     count = 0
     i = 0
-    total = len(articles) + len(tweets)
+    total = len(articles) * len(tweets)
     for article in articles:
         predictions.append({'title': article['title'], 'mean_score': 0.0})
         total_score = 0.0
