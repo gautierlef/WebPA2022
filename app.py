@@ -286,16 +286,13 @@ class Storage:
         for index, row in df.iterrows():
             cur.execute(''' INSERT INTO Tweet(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
-        cur.execute(''' SELECT * FROM Tweet GROUP BY link HAVING COUNT(*) > 1 ''')
+        cur.execute(''' SELECT t1.id, t2.id, t1.link FROM Tweet t1 INNER JOIN Tweet t2 ON t1.link = t2.link ''')
         duplicates = cur.fetchall()
         first_occurence = []
         for duplicate in duplicates:
-            if duplicate[4] not in first_occurence:
-                first_occurence.append(duplicate[4])
-            else:
-                print(duplicate[4])
-                print("Removed!")
-                cur.execute('''DELETE FROM Tweet WHERE id LIKE %s''', (duplicate[0]))
+            if duplicate[1] not in first_occurence:
+                first_occurence.append(duplicate[1])
+                cur.execute(''' DELETE FROM Tweet WHERE link LIKE %s AND id != %s ''', (duplicate[1], duplicate[0]))
         self.db.commit()
 
     def addArticlesFromDf(self, df):
