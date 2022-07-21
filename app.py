@@ -282,11 +282,18 @@ class Storage:
     def addTwittsFromDf(self, df):
         df = df.reset_index()
         cur = self.db.cursor()
-        cur.execute('''DELETE FROM Tweet WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
+        # cur.execute('''DELETE FROM Tweet WHERE date LIKE %s''', ("\'" + date.today().strftime("%Y-%m-%d") + "%", ))
         for index, row in df.iterrows():
             cur.execute(''' INSERT INTO Tweet(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
-        cur.execute(''' DELETE t1 FROM Tweet t1 INNER JOIN Tweet t2 WHERE t1.date < t2.date AND t1.link = t2.link ''')
+        cur.execute(''' SELECT * FROM Tweet GROUP BY link HAVING COUNT(*) > 1 ''')
+        duplicates = cur.fetchall()
+        first_occurence = []
+        for duplicate in duplicates:
+            if duplicate[4] not in first_occurence:
+                first_occurence.append(duplicate[4])
+            else:
+                cur.execute('''DELETE FROM Tweet WHERE link LIKE %s''', (duplicate[4]))
         self.db.commit()
 
     def addArticlesFromDf(self, df):
