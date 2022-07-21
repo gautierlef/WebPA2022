@@ -79,7 +79,7 @@ def allComparison():
     storage = Storage()
     predictionData = storage.loadAllPredictions()
     for row in predictionData:
-        predictions.append({'id': str(row[0]), 'title': str(row[1]), 'meanScore': str(row[2])})
+        predictions.append({'id': str(row[0]), 'title': str(row[1]), 'mean_score': str(row[2])})
     return render_template('viewPredictions.html', predictions=predictions)
 
 
