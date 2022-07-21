@@ -251,7 +251,7 @@ def S3toRDS():
         related_tweet_count = 0
         tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
         for tweet in tweets:
-            # print(str(count) + '/' + str(total))
+            print(str(count) + '/' + str(total))
             tweet_related = False
             for tag in tags:
                 if tag.lower() in tweet['text'].lower():
@@ -296,6 +296,12 @@ class Storage:
         data = cur.fetchall()
         return data
 
+    def loadAllPredictions(self):
+        cur = self.db.cursor()
+        cur.execute(''' SELECT id, title, meanScore FROM Prediction ''')
+        data = cur.fetchall()
+        return data
+
     def loadTweet(self, idTweet):
         cur = self.db.cursor()
         cur.execute(''' SELECT id, authorId, date, lang, link, text FROM Tweet WHERE id = %s ''', (idTweet, ))
@@ -330,7 +336,7 @@ class Storage:
         cur = self.db.cursor()
         cur.execute('''DELETE FROM Prediction''')
         for prediction in predictions:
-            cur.execute(''' INSERT INTO Prediction(title, meanScore) VALUES (%s, %s, %s, %s, %s) '''
+            cur.execute(''' INSERT INTO Prediction(title, meanScore) VALUES (%s, %s) '''
                         , (prediction['title'], prediction['mean_score']))
         self.db.commit()
 
