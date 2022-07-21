@@ -290,10 +290,11 @@ class Storage:
         duplicates = cur.fetchall()
         first_occurence = []
         for duplicate in duplicates:
-            print(duplicate[4])
             if duplicate[4] not in first_occurence:
                 first_occurence.append(duplicate[4])
             else:
+                print(duplicate[4])
+                print("Removed!")
                 cur.execute('''DELETE FROM Tweet WHERE id LIKE %s''', (duplicate[0]))
         self.db.commit()
 
