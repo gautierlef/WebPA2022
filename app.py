@@ -286,7 +286,7 @@ class Storage:
         for index, row in df.iterrows():
             cur.execute(''' INSERT INTO Tweet(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
-        cur.execute(''' SELECT t1.id, t2.id, t1.link FROM Tweet t1 INNER JOIN Tweet t2 ON t1.link = t2.link ''')
+        cur.execute(''' SELECT t1.id, t1.link FROM Tweet t1 INNER JOIN Tweet t2 ON t1.link = t2.link ''')
         duplicates = cur.fetchall()
         first_occurence = []
         for duplicate in duplicates:
