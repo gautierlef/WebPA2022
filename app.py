@@ -287,7 +287,7 @@ class Storage:
             cur.execute(''' INSERT INTO Tweet(authorId, date, lang, link, text) VALUES (%s, %s, %s, %s, %s) '''
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
         cur.execute(''' WITH cte AS (SELECT id, authorId, date, lang, link, text, ROW_NUMBER() OVER 
-        (PARTITION BY date ORDER BY date) row_num FROM Tweet) DELETE FROM cte WHERE row_num > 1 ''')
+        (PARTITION BY date ORDER BY date DESC) row_num FROM Tweet) DELETE FROM cte WHERE row_num > 1 ''')
         self.db.commit()
 
     def addArticlesFromDf(self, df):
