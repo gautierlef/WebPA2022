@@ -75,46 +75,11 @@ def researchRelatedTweet(idArticle):
 
 @app.route('/allComparison', methods=['GET'])
 def allComparison():
-    tweets = []
-    articles = []
-    storage = Storage()
-    articlesData = storage.loadAllArticles()
-    tweetsData = storage.loadAllTweets()
-    for row in articlesData:
-        articles.append({'id': str(row[0]), 'title': str(row[1]), 'link': str(row[2]), 'lang': row[3], 'text': row[4],
-                         'tag': row[5]})
-    for row in tweetsData:
-        tweets.append({'id': str(row[0]), 'authorid': str(row[1]), 'date': str(row[2]), 'lang': row[3], 'link': row[4],
-                       'text': row[5]})
     predictions = []
-    count = 0
-    i = 0
-    total = len(articles) * len(tweets)
-    for article in articles:
-        predictions.append({'title': article['title'], 'mean_score': 0.0})
-        total_score = 0.0
-        related_tweet_count = 0
-        tags = article['tag'].replace('[', '').replace(']', '').replace('\'', '').split(', ')
-        for tweet in tweets:
-            # print(str(count) + '/' + str(total))
-            tweet_related = False
-            for tag in tags:
-                if tag.lower() in tweet['text'].lower():
-                    related_tweet_count += 1
-                    tweet_related = True
-                    break
-            if tweet_related:
-                prediction = getPrediction(article['title'], tweet['text'])
-                if prediction == 'En cohérence':
-                    total_score += 3
-                elif prediction == 'Neutres':
-                    total_score += 1
-            count += 1
-        if related_tweet_count != 0:
-            predictions[i]['mean_score'] = total_score / related_tweet_count
-        else:
-            predictions[i]['mean_score'] = 0
-        i += 1
+    storage = Storage()
+    predictionData = storage.loadAllPredictions()
+    for row in predictionData:
+        predictions.append({'id': str(row[0]), 'title': str(row[1]), 'meanScore': str(row[2])})
     return render_template('viewPredictions.html', predictions=predictions)
 
 
@@ -229,7 +194,6 @@ def S3toRDS():
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data))
             storage.addArticlesFromDf(df)
-    print("Jobs done!")
     # Predictions
     tweets = []
     articles = []
