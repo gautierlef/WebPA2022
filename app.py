@@ -288,12 +288,13 @@ class Storage:
                         , (row['author_id'], row['created_at'], row['lang'], row['link'], row['text']))
         cur.execute(''' SELECT * FROM Tweet GROUP BY link HAVING COUNT(*) > 1 ''')
         duplicates = cur.fetchall()
+        print(duplicates)
         first_occurence = []
         for duplicate in duplicates:
             if duplicate[4] not in first_occurence:
                 first_occurence.append(duplicate[4])
             else:
-                cur.execute('''DELETE FROM Tweet WHERE link LIKE %s''', (duplicate[4]))
+                cur.execute('''DELETE FROM Tweet WHERE id LIKE %s''', (duplicate[0]))
         self.db.commit()
 
     def addArticlesFromDf(self, df):
