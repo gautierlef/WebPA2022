@@ -229,6 +229,7 @@ def S3toRDS():
             data = obj['Body'].read()
             df = pd.read_excel(io.BytesIO(data))
             storage.addArticlesFromDf(df)
+    print("Jobs done!")
     # Predictions
     tweets = []
     articles = []
